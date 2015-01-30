@@ -1,0 +1,7 @@
+Package: net.tateu.timerexample
+Name: Timer Example
+Depends: firmware (>=7.0), mobilesubstrate
+Version: 1.0.0~beta1
+Architecture: iphoneos-arm
+Description: A PCPersistentTimer example.
+Section: Tweaks
