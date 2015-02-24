@@ -4,20 +4,15 @@
 + (id)sharedInstance;
 @end
 
-@interface PCPersistentTimer : NSObject
+@interface PCSimpleTimer : NSObject
 @property BOOL disableSystemWaking;
-@property(readonly) double fireTime;
-@property double minimumEarlyFireProportion;
-- (double)_earlyFireTime;
 - (BOOL)disableSystemWaking;
-- (double)fireTime;
 - (id)initWithFireDate:(id)arg1 serviceIdentifier:(id)arg2 target:(id)arg3 selector:(SEL)arg4 userInfo:(id)arg5;
 - (id)initWithTimeInterval:(double)arg1 serviceIdentifier:(id)arg2 target:(id)arg3 selector:(SEL)arg4 userInfo:(id)arg5;
 - (void)invalidate;
 - (BOOL)isValid;
-- (double)minimumEarlyFireProportion;
 - (void)scheduleInRunLoop:(id)arg1;
-- (void)setMinimumEarlyFireProportion:(double)arg1;
+- (void)setDisableSystemWaking:(BOOL)arg1;
 - (id)userInfo;
 @end
 
@@ -45,7 +40,7 @@
 #define timerExamplePList @"/private/var/mobile/Library/Preferences/net.tateu.timerexample.plist"
 #define timerExampleBundleID @"net.tateu.timerexample"
 #define timerExampleNotification "net.tateu.timerexample/starttimer"
-static PCPersistentTimer *timerExample = nil;
+static PCSimpleTimer *timerExample = nil;
 static UIAlertView *timerExampleAlert = nil;
 
 static void TimerExampleLoadTimer();
@@ -254,8 +249,7 @@ static void TimerExampleLoadTimer()
 		[data setObject:subject forKey:@"subject"];
 	}
 
-	[timerExample setMinimumEarlyFireProportion:86400];
-	timerExample = [[%c(PCPersistentTimer) alloc] initWithFireDate:fireDate serviceIdentifier:timerExampleBundleID target:[%c(SBClockDataProvider) sharedInstance] selector:@selector(TimerExampleFired) userInfo:data];
+	timerExample = [[%c(PCSimpleTimer) alloc] initWithFireDate:fireDate serviceIdentifier:timerExampleBundleID target:[%c(SBClockDataProvider) sharedInstance] selector:@selector(TimerExampleFired) userInfo:data];
 
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 	[formatter setDateFormat:@"yyyy/MM/dd HH:mm:ss"];
